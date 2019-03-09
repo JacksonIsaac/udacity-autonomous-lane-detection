@@ -72,18 +72,21 @@ I used np.polyfit() which takes a polynomial of degree 'n', and return (x, y) po
 
 Using this, we get a equation like 'A = yB + x'. In order to create the lane, we pass the postional value of bottom of the image (y_max) and upto the middle horizon (y_min) until where the end of lane is visible, as per the camera alignment done in samples provided. Pixel position will be in reverse order since (0,0) starts from top left of the image.
 
+For the challenge video, I noticed that the dimensions are different, so I updated the vertices to dynamically take (x, y) for extracting ROI accordingly.
+
+Then I realized that in some frames, the lanes were too much inclined which caused the lane to jump off and was not stable. So I filtered out the lines where slope was > 0.5 in a frame. After filtering out the unstable lines, I was able to get a much better and stable output.
 
 
 ### 2. Identify potential shortcomings with your current pipeline
 
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
-
+Some of the shortcomings that I thought of while working on the project are
+- It might not work well when there is more traffic
+- Cars crossing over lanes
+- At intersections, turns and curves; the current pipeline might fail
+- Missing/unmarked lanes ? In countries where lanes are not marked at all or are missing.
 
 ### 3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+Some possible improvements that can be done are as follows
+- Fine tune the parameter to suit the different scenarios. Currently the parameters are tuned to the given set of inputs.
+- For different scenarios like highway, city, intersection, traffic, and other such scenarios; we can have different set of pipelines which would work in harmony and accordingly update the lane detection and conveying the corresponding lane information.
