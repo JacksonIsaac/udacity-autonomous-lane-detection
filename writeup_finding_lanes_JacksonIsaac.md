@@ -25,12 +25,12 @@ Having already worked on some image processing projects myself, I started by exp
 
 #### Initial exploration
 My initial pipeline consiste of 6 steps in the following order:
-- Convert input image to grayscale
-- Filter Region of Interest (ROI).
-- Run canny edge detection on ROI.
-- De-noise image using Gaussian API
-- Perform Hough Transformation on de-noised image
-- Draw lines detected from hough transformation onto the input image.
+1. Convert input image to grayscale
+1. Filter Region of Interest (ROI).
+1. Run canny edge detection on ROI.
+1. De-noise image using Gaussian API
+1. Perform Hough Transformation on de-noised image
+1. Draw lines detected from hough transformation onto the input image.
 
 First, I converted the image to grayscale, then extracted ROI from grayscaled image. 
 
@@ -43,18 +43,18 @@ To overcome this issue, I moved the ROI extraction after canny edge detection, a
 #### Finalizing pipeline structure and parameter tuning
 
 After my initial exploration and observations made in each step, I finalized the pipeline as follows:
-- Convert input image to grayscale
-![Gray scaled image][./test_images_output/solidWhiteCurve-gray.jpg]
-- De-noise image using Gaussian API
-![de-noised image][./test_images_output/solidWhiteCurve-noise.jpg]
-- Run canny edge detection on ROI.
-![Canny image][./test_images_output/solidWhiteCurve-canny.jpg]
-- Filter Region of Interest (ROI).
-![Region of Interest][./test_images_output/solidWhiteCurve-roi.jpg]
-- Perform Hough Transformation on de-noised image
-![Hough Transformation][./test_images_output/solidWhiteCurve-hough.jpg]
-- Draw lines detected from hough transformation onto the input image.
-![Final image with lane overlayed][./test_images_output/solidWhiteCurve-edges.jpg]
+1. Convert input image to grayscale
+![Gray scaled image](./test_images_output/solidWhiteCurve-gray.jpg)
+2. De-noise image using Gaussian API
+![de-noised image](./test_images_output/solidWhiteCurve-noise.jpg)
+3. Run canny edge detection on ROI.
+![Canny image](./test_images_output/solidWhiteCurve-canny.jpg)
+4. Filter Region of Interest (ROI).
+![Region of Interest](./test_images_output/solidWhiteCurve-roi.jpg)
+5. Perform Hough Transformation on de-noised image
+![Hough Transformation](./test_images_output/solidWhiteCurve-hough.jpg)
+6. Draw lines detected from hough transformation onto the input image.
+![Final image with lane overlayed](./test_images_output/solidWhiteCurve-edges.jpg)
 
 Next step was to correctly identify and differentiate the left and right lanes, instead of just drawing lines over any line, which might seem like a lane, detected in the image.
 
@@ -66,7 +66,7 @@ Next task was to create a single left lane and single right lane. For this, I mo
 
 In some cases, the left lane had gaps between two lines, and in some right lane had gaps. If the vehicle is travelling in center lane, both the sides would have gaps. Some samples had yellow/white connected lane on left side and in some right side.
 
-Inorder to generalize this, we need to have a single line for each lane. To compute the start and end of this lane, I made use of polynomial api available in numpy. To better understand this, I went through the 'Student Hub', where I found a link[https://medium.com/@mrhwick/simple-lane-detection-with-opencv-bfeb6ae54ec0] explaining the lane detection using opencv, which I have referred and understood the logic behind it.
+Inorder to generalize this, we need to have a single line for each lane. To compute the start and end of this lane, I made use of polynomial api available in numpy. To better understand this, I went through the 'Student Hub', where I found a [link](https://medium.com/@mrhwick/simple-lane-detection-with-opencv-bfeb6ae54ec0) explaining the lane detection using opencv, which I have referred and understood the logic behind it.
 
 I used np.polyfit() which takes a polynomial of degree 'n', and return (x, y) point; which in turn is provided as a input to np.poly1d() which creates a polynomial equation from (x, y). In our case, we need to provide (y, x), since y is a coefficient variable and x is a constant value.
 
